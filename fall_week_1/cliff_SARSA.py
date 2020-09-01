@@ -1,3 +1,11 @@
+# note that given implementation does not ensure success
+# it should be inferred from result that if reward is not too small (negatively large)
+# the agent has reached the end
+
+# but it is enough to see the difference with Q-learning
+# since it can show how often the agent falls down the cliff (negative reward in greater magnitude)
+
+
 import gym
 import gym_gridworlds
 import numpy as np
@@ -9,6 +17,8 @@ import random as pr
 env = gym.make('Cliff-v0')
 
 # Q-table
+# note that:
+# action = [up, right, down, left]
 Q = np.zeros([env.height , env.width, env.action_space.n])
 
 # define hyperparameters (epsilon defined as function later)
@@ -26,8 +36,15 @@ for i in range(num_episodes):
     rAll = 0
     done = False
 
-    e = 1. / ((i // 100) + 1)  # Python2&3
+    e = 1. / ((i // 100) + 1)
+    # e-greedy where epsilon starts big
+    # and becomes small
+    # = more exploration in the beginning and less later on
+    # with larger num_episodes, this might come into better effect
 
+    # note that this is a method to satisfy condition of GLIE
+
+    # e-greedy
     if np.random.rand(1) < e:
         action = env.action_space.sample()
     else:
@@ -49,7 +66,11 @@ for i in range(num_episodes):
 
         rAll += reward
         y, x = new_y, new_x
+
+        # difference with Q-learning
+        # action is already chosen for updating current state-action value
         action = next_action
+        # therefore the loop continues by choosing only the next action
 
     rList.append(rAll)
 
