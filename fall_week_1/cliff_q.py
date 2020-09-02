@@ -13,7 +13,7 @@ Q = np.zeros([env.height , env.width, env.action_space.n])
 
 # define hyperparameters (epsilon defined as function later)
 dis = .90
-num_episodes = 2000
+num_episodes = 1000
 lr = 0.01
 success = 0
 
@@ -50,5 +50,9 @@ for i in range(num_episodes):
 print("Success rate: " + str(sum(rList) / num_episodes))
 print("Final Q-Table Values")
 print(Q)
+print("Q Values near starting position")
+print("START\n" + str(Q[3,0:1]))
+print("Above START\n" + str(Q[2,0:2]))
+print("Above above START\n" + str(Q[1,0:2]))
 plt.bar(range(len(rList)), rList, color="blue")
 plt.show()
