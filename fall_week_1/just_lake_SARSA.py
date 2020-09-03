@@ -29,7 +29,7 @@ for i in range(num_episodes):
     rAll = 0
     done = False
 
-    e = 1. / ((i // 100) + 1)  # Python2&3
+    e = 1. / ((i // 100) + 1)  
 
     if np.random.rand(1) < e:
         action = env.action_space.sample()
