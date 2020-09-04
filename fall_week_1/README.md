@@ -1,5 +1,9 @@
 # Comparing SARSA and Q-learning on just_lake / frozen_lake / cliff
 
+## Reference
+https://github.com/hunkim/ReinforcementZeroToAll  
+https://github.com/podondra/gym-gridworlds/tree/master/gym_gridworlds  
+
 ## just_lake
 
 showed no significant difference
