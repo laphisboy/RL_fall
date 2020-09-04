@@ -1,6 +1,9 @@
 # Comparing SARSA and Q-learning on just_lake / frozen_lake / cliff
 
 ## Reference
+
+basically combined the two below...  
+
 https://github.com/hunkim/ReinforcementZeroToAll  
 https://github.com/podondra/gym-gridworlds/tree/master/gym_gridworlds  
 
