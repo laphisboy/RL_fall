@@ -12,7 +12,7 @@ class DQN(nn.Module):
         self.fc2_dims = fc2_dims
         self.n_actions = n_actions
 
-        self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)      # what is the meaning of *... pointing?
+        self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)      # what is the meaning of *... pointing? : unpack list
         self.fc2 = nn.Linear(self.fc1_dims, self.fc2_dims)
         self.fc3 = nn.Linear(self.fc2_dims, self.n_actions)
 
@@ -85,10 +85,11 @@ class Agent():
 
         self.Q_eval.optimizer.zero_grad()                                   # initiallize grad
 
-        max_mem = min(self.mem_cntr, self.mem_size)                         # to allow learning when ...
+        max_mem = min(self.mem_cntr, self.mem_size)                         # to ensure batch to hold whats filled up
 
         batch = np.random.choice(max_mem, self.batch_size, replace = False) # not really sure what's going on from here.... to...
                                                                             # just array of random numbers?
+                                                                            # pikcing random numbers 
                                                                             
         batch_index = np.arange(self.batch_size, dtype = np.int32)
 
@@ -98,11 +99,12 @@ class Agent():
         reward_batch = T.tensor(self.reward_memory[batch]).to(self.Q_eval.device)
         terminal_batch = T.tensor(self.terminal_memory[batch]).to(self.Q_eval.device)
 
-        q_eval = self.Q_eval.forward(state_batch)[batch_index, action_batch]
-        q_next = self.Q_eval.forward(new_state_batch)
-        q_next[terminal_batch] = 0.0                                        # until here...
+        q_eval = self.Q_eval.forward(state_batch)[batch_index, action_batch]        # update the values of actions actually took
+        q_next = self.Q_eval.forward(new_state_batch)                               #
+        q_next[terminal_batch] = 0.0                                        # if done then done do forward passing
 
-        q_target = reward_batch + self.gamma*T.max(q_next,dim=1)[0]
+        q_target = reward_batch + self.gamma*T.max(q_next,dim=1)[0]         # dim = 1: action dimension and
+                                                                            # max returns value and index so [0]
 
         loss = self.Q_eval.loss(q_target, q_eval).to(self.Q_eval.device)
         loss.backward()

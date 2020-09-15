@@ -4,15 +4,15 @@ import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
 
-class DQN(nn.Module):
+class DeepSARSA(nn.Module):
     def __init__(self, lr, input_dims, fc1_dims, fc2_dims, n_actions):
-        super(DQN, self).__init__()
+        super(DeepSARSA, self).__init__()
         self.input_dims = input_dims
         self.fc1_dims = fc1_dims
         self.fc2_dims = fc2_dims
         self.n_actions = n_actions
 
-        self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)      # what is the meaning of *... pointing?
+        self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)      # what is the meaning of *... pointing? : unpack list
         self.fc2 = nn.Linear(self.fc1_dims, self.fc2_dims)
         self.fc3 = nn.Linear(self.fc2_dims, self.n_actions)
 
@@ -46,25 +46,27 @@ class Agent():
         self.iter_cntr = 0
         self.replace_target = 100
 
-        self.Q_eval = DQN(lr, n_actions = n_actions, input_dims = input_dims,
+        self.Q_eval = DeepSARSA(lr, n_actions = n_actions, input_dims = input_dims,
                 fc1_dims = 256, fc2_dims = 256)
 
-        self.Q_next = DQN(lr, n_actions = n_actions, input_dims = input_dims, 
+        self.Q_next = DeepSARSA(lr, n_actions = n_actions, input_dims = input_dims, 
                 fc1_dims = 64, fc2_dims = 64)
 
         self.state_memory = np.zeros((self.mem_size, *input_dims), dtype = np.float32)
         self.new_state_memory = np.zeros((self.mem_size, *input_dims), dtype = np.float32)
         self.action_memory = np.zeros(self.mem_size, dtype = np.int32)
+        self.next_action_memory = np.zeros(self.mem_size, dtype = np.int32)         # add numpy array for next action
         self.reward_memory = np.zeros(self.mem_size, dtype = np.float32)
         self.terminal_memory = np.zeros(self.mem_size, dtype = np.bool)
 
-    def store_transition(self, state, action, reward, state_, terminal):
+    def store_transition(self, state, action, reward, state_, action_, terminal):   # take account of next action when storing
         index = self.mem_cntr % self.mem_size
         
         self.state_memory[index] = state
         self.new_state_memory[index] = state_                               # s_prime
         self.reward_memory[index] = reward
         self.action_memory[index] = action
+        self.next_action_memory[index] = action_
         self.terminal_memory[index] = terminal
 
         self.mem_cntr +=  1
@@ -85,24 +87,27 @@ class Agent():
 
         self.Q_eval.optimizer.zero_grad()                                   # initiallize grad
 
-        max_mem = min(self.mem_cntr, self.mem_size)                         # to allow learning when ...
+        max_mem = min(self.mem_cntr, self.mem_size)                         # to ensure batch to hold whats filled up
 
         batch = np.random.choice(max_mem, self.batch_size, replace = False) # not really sure what's going on from here.... to...
                                                                             # just array of random numbers?
+                                                                            # pikcing random numbers 
                                                                             
         batch_index = np.arange(self.batch_size, dtype = np.int32)
 
         state_batch = T.tensor(self.state_memory[batch]).to(self.Q_eval.device)
         new_state_batch = T.tensor(self.new_state_memory[batch]).to(self.Q_eval.device)
         action_batch = self.action_memory[batch]
+        next_action_batch = self.next_action_memory[batch]                  ### added
         reward_batch = T.tensor(self.reward_memory[batch]).to(self.Q_eval.device)
         terminal_batch = T.tensor(self.terminal_memory[batch]).to(self.Q_eval.device)
 
-        q_eval = self.Q_eval.forward(state_batch)[batch_index, action_batch]
-        q_next = self.Q_eval.forward(new_state_batch)
-        q_next[terminal_batch] = 0.0                                        # until here...
+        q_eval = self.Q_eval.forward(state_batch)[batch_index, action_batch]            # update the values of actions actually took
+        q_next = self.Q_eval.forward(new_state_batch)[batch_index, next_action_batch]   ### also use the actions actually took in next state
+        q_next[terminal_batch] = 0.0                                        # if done then done do forward passing
 
-        q_target = reward_batch + self.gamma*T.max(q_next,dim=1)[0]
+        q_target = reward_batch + self.gamma*q_next                         ### Q value of action actually took
+                                                                            # max returns value and index so [0]
 
         loss = self.Q_eval.loss(q_target, q_eval).to(self.Q_eval.device)
         loss.backward()

@@ -1,5 +1,5 @@
 import gym
-from dqn_agent import Agent
+from deepSARSA import Agent
 from utils import plotLearning
 import numpy as np
 
@@ -15,18 +15,25 @@ if __name__ == '__main__':
         score = 0
         done = False
         observation = env.reset()
-
+        action = agent.choose_action(observation) ###
         while not done:
-            action = agent.choose_action(observation)
+
             observation_, reward, done, info = env.step(action)
             score += reward
-            agent.store_transition(observation, action, reward, observation_, done)
+
+            action_ = agent.choose_action(observation) ###
+            
+            agent.store_transition(observation, action, reward, observation_, action_, done) ###
             agent.learn()
             observation = observation_
+            action = action_ ###
+            #env.render()
 
         scores.append(score)
         eps_history.append(agent.epsilon)
         avg_score = np.mean(scores[-100:])
+        
+        
 
         print('episode ', i, 'score %.2f' % score,
                 'average score %.2f' % avg_score,
