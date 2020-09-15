@@ -23,7 +23,7 @@ if __name__ == '__main__':
             agent.store_transition(observation, action, reward, observation_, done)
             agent.learn()
             observation = observation_
-            env.render()
+            #env.render()
 
         scores.append(score)
         eps_history.append(agent.epsilon)
@@ -36,5 +36,5 @@ if __name__ == '__main__':
                 'epsilon %.2f' % agent.epsilon)
 
     x = [i+1 for i in range(n_games)]
-    filename = 'lunar_lander.png'
+    filename = 'lunar_lander_dqn.png'
     plotLearning(x, scores, eps_history, filename)
