@@ -36,5 +36,5 @@ if __name__ == '__main__':
                 'epsilon %.2f' % agent.epsilon)
 
     x = [i+1 for i in range(n_games)]
-    filename = 'lunar_lander_dqn.png'
+    filename = 'lunar_lander_dqn_2.png'
     plotLearning(x, scores, eps_history, filename)
