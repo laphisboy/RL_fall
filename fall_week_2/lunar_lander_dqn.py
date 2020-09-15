@@ -23,10 +23,13 @@ if __name__ == '__main__':
             agent.store_transition(observation, action, reward, observation_, done)
             agent.learn()
             observation = observation_
+            env.render()
 
         scores.append(score)
         eps_history.append(agent.epsilon)
         avg_score = np.mean(scores[-100:])
+        
+        
 
         print('episode ', i, 'score %.2f' % score,
                 'average score %.2f' % avg_score,
