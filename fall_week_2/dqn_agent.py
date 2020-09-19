@@ -48,7 +48,7 @@ class Agent():
 
         self.Q_eval = DQN(lr, n_actions = n_actions, input_dims = input_dims,
                 fc1_dims = 256, fc2_dims = 256)
-
+        # seems like there is no use of Q_next...
         self.Q_next = DQN(lr, n_actions = n_actions, input_dims = input_dims, 
                 fc1_dims = 64, fc2_dims = 64)
 
