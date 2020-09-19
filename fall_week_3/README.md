@@ -8,7 +8,11 @@ and Q-target network evaluates while Q-network chooses the argmax next action
 
 no forking but basically copied down code shown through youtube  
 
-https://www.youtube.com/watch?v=A39cjchWnsU
+https://www.youtube.com/watch?v=A39cjchWnsU   
+
+Actually forked the plotLearning module from ...  
+
+https://github.com/philtabor/Youtube-Code-Repository/tree/master/ReinforcementLearning/DeepQLearning
 
 ## Lunar Lander with DDDQN (Tensorflow.keras)
 
