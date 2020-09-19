@@ -10,19 +10,23 @@ no forking but basically copied down code shown through youtube
 
 https://www.youtube.com/watch?v=A39cjchWnsU
 
-## Lunar Lander with DDDQN
+## Lunar Lander with DDDQN (Tensorflow.keras)
 
 ![lunar_lander_dddqn](https://github.com/laphisboy/RL_fall/blob/master/fall_week_3/lunar_lander_dddqn.png)
 
-Lets compare with previous resluts...  
+When compared with results shown .png below,  
+DDDQN shows less noisy convergence to optimal policy (or at least the better policy)  
+Note that the exploration rate (epsilon) is different above and below  
+which could be reason to why DDDQN seems to converge slower than DQN  
 
-## Lunar Lander with DQN
+
+## Lunar Lander with DQN (PyTorch)
 
 Learns faster
 
 ![lundar_lander_dqn](https://github.com/laphisboy/RL_fall/blob/master/fall_week_2/lunar_lander_dqn.png)
 
-## Lunar Lander with Deep SARSA
+## Lunar Lander with Deep SARSA (PyTorch)
 
 Has difficulty learning (slower)  
 
