@@ -12,7 +12,7 @@ class DuelingDQN(keras.Model):
         self.V = keras.layers.Dense(1, activation=None)
         self.A = keras.layers.Dense(n_actions, activation=None)
 
-    def call(self, state):
+    def call(self, state):              # call: just calling the name of the object we can operate this function
         x = self.dense1(state)
         x = self.dense2(x)
         V = self.V(x)
