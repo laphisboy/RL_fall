@@ -220,14 +220,14 @@ class Agent():
         q_eval = q_next.numpy()
 
         max_actions = tf.math.argmax(self.q_eval(states_), axis=1)
-        error = []
-        e = 0.001                       ### a small number to prevent probability from becoming 0
+        #error = []
+        e = 0.00001                       ### a small number to prevent probability from becoming 0
         importance = []
         for idx, terminal in enumerate(dones):
             q_estimate = q_target[idx, actions[idx]]
             q_target[idx, actions[idx]] = rewards[idx] + self.gamma*q_eval[idx, max_actions[idx]]*(1-int(dones[idx]))
             td_error = (q_target[idx, actions[idx]] - q_estimate)
-            error.append(td_error)
+            #error.append(td_error)
 
             ### calc priority update
             priority = (np.abs(td_error)+e)**alpha
@@ -253,16 +253,20 @@ class Agent():
 
             #self.q_eval.fit(states[idx], q_target[idx])
             #self.q_eval.fit(states[idx], q_target, sample_weight = importance)          ### importance included as sample weight
-                                                                                           ### so upmost priority to calc error
+            ### so upmost priority to calc error
         #print("before train on batch, states and q_target is ...")
         #print(states.shape)
         #print(q_target.shape)
         #print(len(importance))
         #print(importance)
         #print("going in to training...")
-        importance = self.memory.importance_sampling(max_mem, beta, batch)
+        
+        ### Importance Sampling
+        #importance = self.memory.importance_sampling(max_mem, beta, batch)
         #print("importance", importance)        
-        self.q_eval.train_on_batch(states, q_target, sample_weight = importance)
+        #self.q_eval.train_on_batch(states, q_target, sample_weight = importance)
+        
+        self.q_eval.train_on_batch(states,q_target)
         self.epsilon = self.epsilon - self.eps_dec if self.epsilon > self.eps_min else self.eps_min
         self.learn_step_counter += 1
         
