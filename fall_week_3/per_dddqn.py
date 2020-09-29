@@ -84,6 +84,8 @@ class ReplayBuffer():
         #print("self.priority_mem", self.priority_memory)
         #print("max_mem", max_mem)
         #print("p_sum == 0.0", p_sum, p_sum == 0)        
+        p_sum = 0.0
+
         if p_sum == 0.0:
             batch = np.random.choice(max_mem, batch_size, replace = False)
         else:
@@ -99,7 +101,7 @@ class ReplayBuffer():
 
         # replace = False: don't want to sample the same memory twice
         
-        #print("batch", max(batch))
+        #print("batch", batch)
 
         states = self.state_memory[batch]
         states_ = self.new_state_memory[batch]
@@ -132,6 +134,10 @@ class ReplayBuffer():
 
     def importance_sampling(self,  max_mem, beta, batch):
         
+        # implemented increasing beta
+        beta_to_use = min(1, beta + self.mem_cntr/100000)
+        #print("beta", beta_to_use)
+
         p_sum = np.sum(self.priority_memory)
         importance = []
         if p_sum == 0:
@@ -140,12 +146,13 @@ class ReplayBuffer():
             for i in batch:
                 prob = self.priority_memory[i] / p_sum
                 #print("prob", prob)
-                importance.append((1/(max_mem*prob))**beta)
+                importance.append((1/(max_mem*prob))**beta_to_use)
         #print("p_sum in importance", p_sum, p_sum == 0.0)
         return importance
 
     def update_transition(self, states, actions, rewards, states_, dones, priority, batch):
         
+        #print("priorit before" ,self.priority_memory[batch])
         #print("update", batch, priority)
         self.state_memory = np.delete(self.state_memory,batch,0)
         self.new_state_memory = np.delete(self.new_state_memory,batch,0)
@@ -160,10 +167,13 @@ class ReplayBuffer():
         self.reward_memory  = np.insert(self.reward_memory,batch, rewards)
         self.terminal_memory = np.insert(self.terminal_memory,batch, dones)
         self.priority_memory = np.insert(self.priority_memory,batch, priority)
+        #print("pr after", self.priority_memory[batch])
 
 class Agent():
-    def __init__(self, lr, gamma, n_actions, epsilon, batch_size, input_dims, epsilon_dec=1e-3, eps_end=0.01, mem_size = 1000000,
+    def __init__(self, lr, gamma, n_actions, epsilon, batch_size, input_dims, epsilon_dec=1e-3, eps_end=0.01, mem_size = 20000,
             fc1_dims = 128, fc2_dims = 128, replace = 100):
+        # tried decreasing mem_size 
+
 
         self.action_space = [i for i in range(n_actions)]
         self.gamma = gamma
@@ -200,7 +210,7 @@ class Agent():
 
         return action
 
-    def learn(self, alpha=0.7, beta = 0.5):
+    def learn(self, alpha=0.6, beta = 0.4):     # parameters according to paper
         if self.memory.mem_cntr < self.batch_size:
             return
 
@@ -210,7 +220,9 @@ class Agent():
 
         #print("sample_buffer")
         states, actions, rewards, states_, dones, max_mem , batch= self.memory.sample_buffer(self.batch_size)
-
+        #batch.sort()        # added batch.sort() for proper update_transition
+                            # could implement this at a later step but not much diff
+                            # nope doesn't matter
         q_pred = self.q_eval(states)
         q_next = self.q_next(states_)
         
@@ -220,6 +232,7 @@ class Agent():
         q_eval = q_next.numpy()
 
         max_actions = tf.math.argmax(self.q_eval(states_), axis=1)
+        #print("max_actions", max_actions)
         #error = []
         e = 0.00001                       ### a small number to prevent probability from becoming 0
         importance = []
@@ -227,10 +240,12 @@ class Agent():
             q_estimate = q_target[idx, actions[idx]]
             q_target[idx, actions[idx]] = rewards[idx] + self.gamma*q_eval[idx, max_actions[idx]]*(1-int(dones[idx]))
             td_error = (q_target[idx, actions[idx]] - q_estimate)
+            #print("td_error", td_error)
             #error.append(td_error)
 
             ### calc priority update
             priority = (np.abs(td_error)+e)**alpha
+            
             #print("priority", priority)
             ### importance sampling
             #importance.append(self.memory.importance_sampling(priority,max_mem,beta))
@@ -260,7 +275,7 @@ class Agent():
         #print(len(importance))
         #print(importance)
         #print("going in to training...")
-        
+
         ### Importance Sampling
         #importance = self.memory.importance_sampling(max_mem, beta, batch)
         #print("importance", importance)        
@@ -269,7 +284,6 @@ class Agent():
         self.q_eval.train_on_batch(states,q_target)
         self.epsilon = self.epsilon - self.eps_dec if self.epsilon > self.eps_min else self.eps_min
         self.learn_step_counter += 1
-        
 #    def loss_fn(self, y_true, y_pred):        ### based on MSE for keras
 #        y_pred = tf.covert_to_tensor_v2(y_pred)
 #        y_true = tf.case(y_true, y_pred.dtype)

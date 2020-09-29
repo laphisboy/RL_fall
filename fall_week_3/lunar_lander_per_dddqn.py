@@ -5,9 +5,9 @@ from utils import plotLearning
 
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
-    agent = Agent(lr = 0.0005, gamma = 0.99, n_actions = 4, epsilon = 1.0, batch_size = 64, input_dims =[8])
-    
-    n_games = 500
+    agent = Agent(lr = 0.00025, gamma = 0.99, n_actions = 4, epsilon = 1.0, batch_size = 64, input_dims =[8])
+    # learning rate is 1/4 to that of normal dqn because PER 
+    n_games = 1000
 
     scores = []
     eps_history = []
