@@ -1,7 +1,7 @@
 # YAI-6th fall RL study
   
-studying with...
-[my notes on Standford Lecture CS234](https://github.com/laphisboy/RL_Summer/)
+studying with...  
+[my notes on Standford Lecture CS234](https://github.com/laphisboy/RL_Summer/)  
 Reinforcement Learning: An Introduction (2nd) - Sutton and Barto  
 Papers related to the topic  
 And code referenced for each topic :)  
