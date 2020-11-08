@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.optimizers import Adam
 import numpy as np
-
+import gc
 
 class DuelingDQN(keras.Model):
     def __init__(self, n_actions, fc1_dims, fc2_dims):
@@ -73,7 +73,7 @@ class ReplayBuffer():
         else:
             p = self.priority_memory / p_sum
             p = p[:max_mem]
-            vip = np.argwhere(self.priority_memory[:max_mem] == 0).flatten
+            vip = np.argwhere(self.priority_memory[:max_mem] == 0).flatten()
             ### vip is for experience without TD error calc
 
             batch = np.random.choice(max_mem, batch_size - len(vip), replace=False, p=p)
@@ -203,3 +203,5 @@ class Agent():
         #self.q_eval.train_on_batch(states, q_target)
         self.epsilon = self.epsilon - self.eps_dec if self.epsilon > self.eps_min else self.eps_min
         self.learn_step_counter += 1
+
+        gc.collect()
