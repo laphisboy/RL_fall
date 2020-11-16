@@ -78,14 +78,14 @@ class ReinforceAgent():
         model = Sequential()
         dropout = 0.2
 
-        model.add(Dense(64, input_shape=(self.state_size,), activation='relu', kernel_initializer='lecun_uniform'))
+        model.add(Dense(64, input_shape=(self.state_size,), activation='relu', kernel_initializer='he_uniform'))
 
-        model.add(Dense(64, activation='relu', kernel_initializer='lecun_uniform'))
+        model.add(Dense(64, activation='relu', kernel_initializer='he_uniform'))
         model.add(Dropout(dropout))
 
         # (edit3) self.action_size --> self.action_size + 1 to incorporate V + A
         # (edit3) uses mean of advantaged to calculate advantage : do you get it? hehe
-        model.add(Dense(self.action_size + 1, kernel_initializer='lecun_uniform'))
+        model.add(Dense(self.action_size + 1, kernel_initializer='he_uniform'))
         model.add(Activation('linear'))
         model.add(Lambda(lambda x: K.expand_dims(x[:, 0], -1) + x[:, 1:] - K.mean(x[:, 1:], axis=1, keepdims=True), output_shape=(self.action_size,)))
         model.compile(loss='mse', optimizer=RMSprop(lr=self.learning_rate, rho=0.9, epsilon=1e-06))
