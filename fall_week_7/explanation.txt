@@ -1,0 +1,32 @@
+takes a long time to understand it has collided.. .why?
+
+thats why there is timeout
+
+hypothesis 1 dueling can overcome the lack of detail in reward function (meh just thought)
+------------------------------------------------------------
+hypothesis 0 reward function in more detail has improved performance
+
+hypothesis 1 
+edit 1
+judging collision should be modified to a longer distance from obstacle - collision doesn't get taken account of when there actually is
+
+hypothesis 2 
+edit 2
+update target network missing - need to add this unless target network is updated only when an episode is over (target model should be updated every N number of timesteps regardless of whether episode is over or not
+
+hypothesis 3 
+edit3 
+dueling can improve performance from double
+
+hypothesis 4 lecun_uniform --> he_uniform
+initialization method developed from lecun(LeNet) to Xavier to He
+
+lecun --> glorot(xavier) 좀 더 최적화된, 층 간의 다른 노드의 수 계산에 사용
+
+glorot(Xavier) --> He ReLU사용할 때 0으로 수렴하게 되는 현상이 있는데 이런 문제를 해결해주는 initialization
+
+(https://towardsdatascience.com/hyper-parameters-in-action-part-ii-weight-initializers-35aee1a28404 참고)
+
+https://github.com/keras-rl/keras-rl/issues/113
+
+https://github.com/keras-rl/keras-rl/blob/master/examples/duel_dqn_cartpole.py
