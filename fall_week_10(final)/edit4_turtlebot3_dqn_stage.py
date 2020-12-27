@@ -64,6 +64,8 @@ def get_by_index(x, idx):
     y = tf.gather(tf.reshape(x, [-1]), idx_flattened)
     return y
 
+
+# combine the two and start from input to actor and critic :)
 @tf.function
 def actor_apply_gradient(trainer_pi, g, k, delta, actor):
     with tf.GradientTape() as tape:
