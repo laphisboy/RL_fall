@@ -62,4 +62,6 @@ https://github.com/python/cpython/blob/0eaf7b975bd61169a8d78945d2d12f23299f61a8/
 #### References
 https://github.com/openai/baselines/blob/master/baselines/acer/acer.py  
 https://github.com/seungeunrho/minimalRL/blob/master/acer.py  
+https://wwiiiii.tistory.com/entry/ACER-Sample-Efficient-ActorCritic-With-Experience-Replay  
+https://talkingaboutme.tistory.com/entry/RL-Policy-Gradient-Algorithms  
 
