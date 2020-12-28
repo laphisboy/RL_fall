@@ -30,3 +30,31 @@ https://github.com/philtabor/Youtube-Code-Repository/tree/master/ReinforcementLe
 
 #### References
 https://github.com/seungeunrho/minimalRL/blob/master/a3c.py  
+
+### [fall_week_5 ~ 6](https://github.com/laphisboy/RL_fall/tree/master/fall_week_5): Installing and Establishing ROS / Gazebo Environment for TURTLEBOT3 machine learning  
+
+#### References
+https://pinkwink.kr/1181  
+http://wiki.ros.org/noetic/Installation/Ubuntu  
+https://www.notion.so/b67ed727aea4467cbc3226bb0c8e8336  
+https://conservative-vector.tistory.com/entry/docker%EC%97%90%EC%84%9C-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88-gui-%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0  
+https://eungbean.github.io/2018/11/19/EOD-Gtk-WARNING-cannot-open-display/  
+http://wiki.ros.org/kinetic/Installation/Ubuntu  
+http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment  
+https://emanual.robotis.com/docs/en/platform/turtlebot3/machine_learning/  
+
+### [fall_week_7~9](https://github.com/laphisboy/RL_fall/tree/master/fall_week_7): How to improve DQN? : D3QN / PER / and changing the Environment (+ Pushing Docker Image)
+
+#### References
+https://github.com/ROBOTIS-GIT/turtlebot3_machine_learning  
+https://github.com/Parsa33033/Deep-Reinforcement-Learning-DQN/blob/master/DQN-with-Prioritized-Experience-Replay.py#L34  
+https://github.com/kachayev/fn.py/pull/14/commits/391824c43fb388e0eca94e568ff62cc35b543ecb  
+https://stackoverflow.com/questions/58915023/what-is-an-alternative-method-of-using-random-choices-in-python-3-5  
+https://github.com/python/cpython/blob/0eaf7b975bd61169a8d78945d2d12f23299f61a8/Lib/random.py#L344  
+
+### [fall_week_10](https://github.com/laphisboy/RL_fall/tree/master/fall_week_7): Switching from DQN to ACER
+
+#### References
+https://github.com/openai/baselines/blob/master/baselines/acer/acer.py  
+https://github.com/seungeunrho/minimalRL/blob/master/acer.py  
+
