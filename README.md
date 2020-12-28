@@ -1,10 +1,11 @@
 # YAI-6th fall RL study
   
 studying with...  
-[my notes on Standford Lecture CS234](https://github.com/laphisboy/RL_Summer/)  
-Reinforcement Learning: An Introduction (2nd) - Sutton and Barto  
-Papers related to the topic  
-And code referenced for each topic :)  
+1. [my notes on Standford Lecture CS234](https://github.com/laphisboy/RL_Summer/)  
+2. Reinforcement Learning: An Introduction (2nd) - Sutton and Barto  
+3. Papers related to the topic  
+4. And code referenced for each topic :)  
+5. ROBOTIS e-Manual TURTLEBOT3 Machine Learning (DQN D3QN PER ACER)
 
 
 ### [fall_week_1](https://github.com/laphisboy/RL_fall/tree/master/fall_week_1): SARSA and Q-learning
