@@ -55,7 +55,7 @@ https://github.com/python/cpython/blob/0eaf7b975bd61169a8d78945d2d12f23299f61a8/
 
 <img src="https://github.com/laphisboy/RL_fall/blob/master/fall_week_7/Peek%202020-11-17%2018-39.gif" width="440" height="440" />  
 <img src="https://github.com/laphisboy/RL_fall/blob/master/fall_week_9/PERD3QN.PNG" width="640" height="440" />  
-<img src="https://github.com/laphisboy/RL_fall/blob/master/fall_week_9/builtdockerimages.PNG" width="340" height="340" />  
+<img src="https://github.com/laphisboy/RL_fall/blob/master/fall_week_9/builtdockerimages.PNG" width="390" height="340" />  
 
 ### [fall_week_10](https://github.com/laphisboy/RL_fall/tree/master/fall_week_7): Switching from DQN to ACER
 
