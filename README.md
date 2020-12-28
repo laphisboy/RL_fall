@@ -53,6 +53,7 @@ https://github.com/kachayev/fn.py/pull/14/commits/391824c43fb388e0eca94e568ff62c
 https://stackoverflow.com/questions/58915023/what-is-an-alternative-method-of-using-random-choices-in-python-3-5  
 https://github.com/python/cpython/blob/0eaf7b975bd61169a8d78945d2d12f23299f61a8/Lib/random.py#L344  
 
+<img src="https://github.com/laphisboy/RL_fall/blob/master/fall_week_7/Peek%202020-11-17%2018-39.gif" width="140" height="140" />
 ![D3QN training in progress...](https://github.com/laphisboy/RL_fall/blob/master/fall_week_7/Peek%202020-11-17%2018-39.gif)
 
 ### [fall_week_10](https://github.com/laphisboy/RL_fall/tree/master/fall_week_7): Switching from DQN to ACER
